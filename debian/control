@@ -1,0 +1,59 @@
+Source: passwdqc
+Maintainer: martin f. krafft <madduck@debian.org>
+Section: admin
+Priority: optional
+Standards-Version: 3.8.4
+Build-Depends: debhelper (>= 7), libpam-dev
+Vcs-Git: git://git.debian.org/collab-maint/passwdqc.git
+Vcs-Browser: http://git.debian.org/?p=collab-maint/passwdqc.git
+Homepage: http://www.openwall.com/passwdqc/
+
+Package: passwdqc
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: password strength checking and policy enforcement toolset
+ passwdqc is a password/passphrase strength checking and policy enforcement
+ toolset, including a PAM module (libpam-passwdqc), command-line programs
+ (pwqcheck and pwqgen), and a library (libpasswdqc0).
+ .
+ This package provides pwqcheck and pwqgen, which are standalone
+ password/passphrase strength checking and random passphrase generator
+ programs, respectively, which are usable from scripts.
+
+Package: libpasswdqc0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: password strength checking and policy enforcement library
+ passwdqc is a password/passphrase strength checking and policy enforcement
+ toolset, including a PAM module (libpam-passwdqc), command-line programs
+ (pwqcheck and pwqgen), and a library (libpasswdqc0).
+ .
+ This package provides the underlying library which exports all the
+ functionality.
+
+Package: libpasswdqc-dev
+Section: libdevel
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, libpasswdqc0 (>= ${binary:Version}), libpasswdqc0 (<< ${source:Upstream-Version}.1~),
+Description: password strength checking and policy enforcement library (C development files)
+ passwdqc is a password/passphrase strength checking and policy enforcement
+ toolset, including a PAM module (libpam-passwdqc), command-line programs
+ (pwqcheck and pwqgen), and a library (libpasswdqc0).
+ .
+ This package provides the development libraries and header files required to
+ build tools using the libpasswdqc library.
+
+Package: libpam-passwdqc
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libpam-runtime (>= 1.0.1-6)
+Description: PAM module for password strength policy enforcement
+ passwdqc is a password/passphrase strength checking and policy enforcement
+ toolset, including a PAM module (libpam-passwdqc), command-line programs
+ (pwqcheck and pwqgen), and a library (libpasswdqc0).
+ .
+ pam_passwdqc (optionally) integrates with PAM such that it gets invoked when
+ users change their passwords. The module is capable of checking password or
+ passphrase strength, enforcing a policy, and offering randomly-generated
+ passphrases, with all of these features being optional and easily
+ (re-)configurable.

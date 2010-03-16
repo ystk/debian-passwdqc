@@ -1,0 +1,12 @@
+#!/bin/sh
+# Copyright © 2010 Martin F. Krafft <madduck@debian.org>
+# Released under the terms of the Artistic Licence 2.0
+#
+set -eu
+
+pam-auth-update --package passwdqc
+
+# See #369953
+set +u
+#DEBHELPER#
+set -u
