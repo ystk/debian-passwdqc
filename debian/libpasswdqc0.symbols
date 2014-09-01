@@ -1,0 +1,7 @@
+# SymbolsHelper-Confirmed: 1.3.0 amd64
+libpasswdqc.so.0 libpasswdqc0 #MINVER#
+ passwdqc_check@Base 1.3.0
+ passwdqc_params_load@Base 1.3.0
+ passwdqc_params_parse@Base 1.3.0
+ passwdqc_params_reset@Base 1.3.0
+ passwdqc_random@Base 1.3.0

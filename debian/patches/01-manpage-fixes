@@ -1,0 +1,16 @@
+Description: Fixes minor glitches in the manpages
+Author: Jackson Doak <noskcaj@ubuntu.com>
+
+Index: passwdqc-1.3.0/pwqcheck.1
+===================================================================
+--- passwdqc-1.3.0.orig/pwqcheck.1	2013-08-10 16:55:41.127266666 +1000
++++ passwdqc-1.3.0/pwqcheck.1	2013-08-10 16:55:41.127266666 +1000
+@@ -160,7 +160,7 @@
+ This is needed to use
+ .Nm
+ as the passwordcheck program on OpenBSD - e.g., with
+-":passwordcheck=/usr/bin/pwqcheck -1:\\"
++":passwordcheck=/usr/bin/pwqcheck \-1:\\"
+ in the "default" section in
+ .Cm /etc/login.conf .
+ .It Cm -2
