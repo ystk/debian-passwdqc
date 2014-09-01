@@ -1,8 +1,8 @@
-# $Owl$
+# $Owl: Owl/packages/passwdqc/passwdqc/passwdqc.spec,v 1.63 2013/04/24 02:02:54 solar Exp $
 
 Summary: A password/passphrase strength checking and policy enforcement toolset.
 Name: passwdqc
-Version: 1.2.0
+Version: 1.3.0
 Release: owl1
 License: BSD-compatible
 Group: System Environment/Base
@@ -46,8 +46,8 @@ building passwdqc-aware applications.
 
 %build
 %__make \
-	CFLAGS_lib="-Wall -fPIC -DLINUX_PAM %optflags_lib" \
-	CFLAGS_bin="-Wall %optflags"
+	CFLAGS_lib="-Wall -W -fPIC -DLINUX_PAM %optflags_lib" \
+	CFLAGS_bin="-Wall -W %optflags"
 
 %install
 rm -rf %buildroot
@@ -60,7 +60,7 @@ rm -rf %buildroot
 
 %files
 %defattr(-,root,root)
-%doc LICENSE README
+%doc LICENSE README pwqcheck.php
 %config(noreplace) /etc/passwdqc.conf
 /%_lib/lib*.so*
 %_bindir/*
@@ -73,6 +73,48 @@ rm -rf %buildroot
 %_libdir/lib*.so
 
 %changelog
+* Wed Apr 24 2013 Solar Designer <solar-at-owl.openwall.com> 1.3.0-owl1
+- When checking is_simple() after discounting a common character sequence,
+apply the (negative) bias even for the passphrase length check.  Previously,
+we were not doing this because passphrases are normally built from words, and
+the same code was being used for the check for dictionary words.
+- Expanded the list of common character sequences.  Along with the change
+above, this reduces the number of passing passwords for RockYou top 100k from
+35 to 18, and for RockYou top 1M from 2333 to 2273 (all of these are with
+passwdqc's default policy).
+- Moved the common character sequences check to be made after the dictionary
+words check, to avoid introducing more cases of misreporting.
+- Added pwqcheck.php, a PHP wrapper function around the pwqcheck program.
+
+* Tue Apr 23 2013 Solar Designer <solar-at-owl.openwall.com> 1.2.4-owl1
+- In randomly generated passphrases: toggle case of the first character of each
+word only if we wouldn't achieve sufficient entropy otherwise, use a trailing
+separator if we achieve sufficient entropy even with the final word omitted
+(in fact, we now enable the use of different separators in more cases for this
+reason), use dashes rather than spaces to separate words when different
+separator characters are not in use.
+- Expanded the allowed size of randomly-generated passphrases in bits (now it's
+24 to 85 in the tools, and 24 to 136 in the passwdqc_random() interface).
+
+* Wed Aug 15 2012 Solar Designer <solar-at-owl.openwall.com> 1.2.3-owl1
+- Handle possible NULL returns from crypt().
+- Declared all pre-initialized arrays and structs as const.
+- Added Darwin (Mac OS X) support to the Makefile, loosely based on a patch by
+Ronald Ip (thanks!)
+
+* Tue Jun 22 2010 Solar Designer <solar-at-owl.openwall.com> 1.2.2-owl1
+- Introduced the GNU'ish "uninstall" make target name (a synonym for "remove").
+- Makefile updates to make the "install" and "uninstall" targets with their
+default settings friendlier to Solaris systems.
+- Added a link to a wiki page with detailed Solaris-specific instructions to
+the PLATFORMS file.
+
+* Sat Mar 27 2010 Solar Designer <solar-at-owl.openwall.com> 1.2.1-owl1
+- When matching against the reversed new password, always pass the original
+non-reversed new password (possibly with a substring removed) into is_simple(),
+but remove or check the correct substring in is_based() considering that the
+matching is possibly being done against the reversed password.
+
 * Tue Mar 16 2010 Solar Designer <solar-at-owl.openwall.com> 1.2.0-owl1
 - New command-line options for pwqcheck: -1 and -2 for reading just 1 and
 just 2 lines from stdin, respectively (instead of reading 3 lines, which is
